@@ -18,6 +18,7 @@
 
 		<script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
 		<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.1.2/cytoscape-dagre.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 		<style>
 		
@@ -26,7 +27,9 @@
 		
 		<textarea id ="textArea1" rows="4" cols="40" placeholder="Description">
 		</textarea>
-				
+
+		<textarea id ="textArea2" rows="4" cols="40" placeholder="Impact Result">
+		</textarea>
 		
 
 
@@ -149,6 +152,7 @@
             <li><a href="#" id="remove">Remove selected node</a></li>
             <li><a href="#" id="center">Center map</a></li>
             <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo">Change node description</a></li>
+            <li><a href="#" id="openAltModel" onclick="return openAltModel();">Open alternative model</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Alguma coisa</a></li>
           </ul>
@@ -210,7 +214,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="openAltModel" onclick="return openAltModel();">Open Alternative Model</button>
+       <!-- <button type="button" class="btn btn-primary" id="openAltModel" onclick="return openAltModel();">Open Alternative Model</button>-->
         <button type="button" class="btn btn-primary" id="update">Update description</button>
 
       </div>
@@ -284,14 +288,14 @@
 
 		function openAltModel(){
 			let nivelNode = cy.getElementById(selectedNode).data("nivel");
-			if (nivelNode != 1){
+			if (nivelNode != 2){
 				alert("This node isn't an alternative");
 			} 
 			else{
 				alert("Redirecting to Alternative Model");
 				openPage = function(){
 					//$_SESSION['alternativeNode'] = cy.getElementById(selectedNode);
-					location.href = "modeloAlt.php?Key="+cy.getElementById(selectedNode).style("content");
+					location.href = "modeloAlt.php?Key="+cy.getElementById(selectedNode);
 				}
 				//javascript:window.location.href="modeloAlt.php";
 				javascript:openPage();
@@ -429,7 +433,7 @@
 		});
 
 		</script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
 	</body>
 
 </html>

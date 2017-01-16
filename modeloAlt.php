@@ -5,6 +5,8 @@
 	<head>
 		<!--<title>cytoscape-dagre.js demo</title> -->
 
+		<link rel="stylesheet" type="text/css" href="modeloAlt.css">
+
 		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
 
 		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
@@ -19,44 +21,15 @@
 		<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.1.2/cytoscape-dagre.js"></script>
 
 		<style>
-			body {
-				font-family: helvetica;
-				font-size: 14px;
-			}
-
 			
-
-			#cy {
-				width: 100%;
-				height: 70%;
-				margin-top:12%;
-
-
-				position: absolute;
-				left: 0;
-				top: 0;
-				z-index: 999;
-			}
-
-
-		textarea  {
-			  position:absolute;
-  			  right:  0px;
-  			  top:    240px;
-			}
-
-
-			h1 {
-				opacity: 0.5;
-				font-size: 1em;
-			}
 		</style>
 
+		<textarea id ="textArea1" rows="4" cols="40" placeholder="Description">
+		</textarea>
+
+
 		<script>
-
 		var x = 0;
-
-
 		</script>
 
 
@@ -73,17 +46,13 @@
 		<script>
 		let selectedNode=0;
 			$(function(){
-
 				var cy = window.cy = cytoscape({
 					container: document.getElementById('cy'),
-
           boxSelectionEnabled: false,
           autounselectify: true,
-
 					layout: {
 						name: 'dagre'
 					},
-
 					style: [
 						{
 							selector: 'node',
@@ -96,7 +65,6 @@
 								'background-color': '#FF8C00'
 							}
 						},
-
 						{
 							selector: 'edge',
 							style: {
@@ -108,7 +76,6 @@
 							}
 						}
 					],
-
 					elements: {
 						nodes: [
 							{ data: { id: '0' , nivel: 0, description: ''} },
@@ -119,26 +86,21 @@
 				});
 				//cy.getElementById(selectedNode).style("background-color","#000000");
 				
+
+				cy.zoom(4);
+
 				cy.on('click','node', function(e){
 					selectedNode = e.cyTarget.id();
 					cy.nodes().style('border-width', 'none');
 					cy.nodes().style('border-color', 'white');
 					cy.getElementById(selectedNode).style('border-width', '1');
 					cy.getElementById(selectedNode).style('border-color', 'black');
-
 					//$('textarea#Tomoyo').val(e.cyTarget.id());
-
-
 					//var message = $('textarea#Tomoyo').val();
 					//alert(message);
-
    					//alert(document.getElementById("Tomoyo").name);
-
-
-
 					//cy.getElementById(e.cyTarget.id()).style("background-color","#000000");
 				});
-
 			});
 		</script>
 	</head>
@@ -149,7 +111,6 @@
 		$descripion = $_POST["description"];
 		echo description;
 	?> 
-
 	<div><?php echo $output; ?></div> -->
 
 
@@ -166,17 +127,31 @@
             <li><a href="#">Alguma coisa</a></li>
           </ul>
         </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo">Create node</a></li>
+            <!--<li><input type="text" id="nodeName"></li>-->
+            <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo">Rename selected node</a></li>
+            <li><a href="#" id="remove">Remove selected node</a></li>
+            <li><a href="#" id="center">Center map</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo">Change node description</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Alguma coisa</a></li>
+          </ul>
+        </li>
       </ul>
 	</nav>
 
 		<div class="container-fluid">
+		
 			<div class="row">
 			<div class="col-sm-12">
 				<!--<h1>cytoscape-dagre demo</h1>-->
 			</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-3 form-inline">
+				<!--<div class="col-sm-3 form-inline">
 					<div class="form-group">
 						<input type="text" class="form-control" class="btn btn-primary" id="textBox">
 						<button type = "button" class="btn btn-primary" id="add">Create node</button>
@@ -195,19 +170,20 @@
 					<button type = "button" class="btn btn-primary" id = "center"> Center map</button>
 				</div>
 				<div class="col-sm-2">
-					<button type = "button" class="btn btn-primary"  data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" id = "description"> Show node description</button>
-				</div>
+					<button type = "button" class="btn btn-primary"  data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo" id = "description"> Show node description</button>
+				</div> -->
 			</div>
 			
 					<div id="cy"></div>
+				
+		</div>
 
-
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		<div class="modal fade" id="descriptionModal" tabindex="-1" role="dialog" aria-labelledby="descriptionModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">Node description</h4>
+        <h4 class="modal-title" id="descriptionModalLabel">Node description</h4>
       </div>
       <div class="modal-body">
         <form>
@@ -219,40 +195,73 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       <!-- <button type="button" class="btn btn-primary" id="openAltModel" onclick="return openAltModel();">Open Alternative Model</button>-->
         <button type="button" class="btn btn-primary" id="update">Update description</button>
 
       </div>
     </div>
   </div>
 </div>
-				
-		</div>
+
+<div class="modal fade" id="createNodeModal" tabindex="-1" role="dialog" aria-labelledby="createNodeLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="createNodeLabel">Create node</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Name of the node:</label>
+            <input type="text" class="form-control" id="nodeName">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="add">Create node</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="renameNodeModal" tabindex="-1" role="dialog" aria-labelledby="renameNodeLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="renameNodeLabel">Rename node</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">New name of the node:</label>
+            <input type="text" class="form-control" id="nodeRename">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="edit">Rename node</button>
+
+      </div>
+    </div>
+  </div>
+</div>
 		<script>
 		let i = 0;
-
 		$('#update').on('click', function (){
 			let nodeDescription = $("#recipient-name").val();
 			//alert(nodeDescription);
 			cy.getElementById(selectedNode).data("description", nodeDescription);
+			$('#descriptionModal').modal('hide');
 		});
-
-		$("#openAltModel").on('click', function(){
-			let nivelNode = cy.getElementById(selectedNode).data("nivel");
-			if (nivelNode != 1){
-				alert("This node isn't an alternative");
-			} 
-			else{
-				alert("Redirecting to Alternative Model");
-				javascript:window.location.href='modeloAlt.php';
-			}
-		});
-
-
 		//let level = 0;
 		//console.log(cy.getElementById(selectedNode).children());
-
 		$("#add").on('click',function (){
-				let idText = $("#textBox").val();
+				let idText = $("#nodeName").val();
 				let nivelPai = cy.getElementById(selectedNode).data("nivel");
 				if (idText == ''){
 					alert("Escreva o nome do no!");
@@ -266,8 +275,10 @@
 						//console.log(cy.getElementById(idText).data("nivel"));
 						cy
 						i++;
+						$('#createNodeModal').modal('hide');
+					    $('#createNodeModal').find('.modal-body input').val("")
 					}else{
-						alert("Você so pode ramificar a alternativa!");
+						alert("Only the main node can be branched");
 					}
 				}
 				var nodeLevel = cy.getElementById(idText).data("nivel");
@@ -277,7 +288,6 @@
 				}
 			});
 		
-
 		$("#remove").on("click",function (){
 			var idAtual = cy.getElementById(selectedNode).data("id");
 			var arestas = cy.elements('edge[source=idAtual]');
@@ -291,7 +301,6 @@
 			else{
 				let saveNode = selectedNode;
 				let passow = false;
-
 				cy.edges().forEach(function (edge){
 					if(edge.source().id() == selectedNode){
 						alert("Voce só pode remover folhas");
@@ -299,7 +308,6 @@
 						return;
 					}
 				});
-
 				cy.edges().forEach(function (edge){
 				if(edge.target().id() == selectedNode){
 					selectedNode = edge.source().id();
@@ -318,13 +326,43 @@
 				//cy.getElementById(selectedNode).style("background-color","#000000");
 			}
 		});
-
 		$("#edit").on ("click",function (){
 			let idText = $("#textBoxEdit").val();
 			cy.getElementById(selectedNode).data("idNome", idText);
+			$('#renameNodeModal').modal('hide');
+			$('#renameNodeModal').find('.modal-body input').val("")
 		});
 		$("#center").on("click",function (){
 			cy.fit();
+		});
+
+		$('#descriptionModal').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Button that triggered the modal
+		  var recipient = button.data('whatever') // Extract info from data-* attributes
+		  var text = cy.getElementById(selectedNode).data("description");
+		  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		  var modal = $(this)
+		  modal.find('.modal-title').text('Description of ' + cy.getElementById(selectedNode).data("idNome"))
+		  modal.find('.modal-body input').val(text)
+		});
+
+		$('#createNodeModal').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Button that triggered the modal
+		  var recipient = button.data('whatever') // Extract info from data-* attributes
+		  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		  var modal = $(this)
+		  modal.find('.modal-title').text('Creating a new node')
+		});
+
+		$('#renameNodeModal').on('show.bs.modal', function (event) {
+		  var button = $(event.relatedTarget) // Button that triggered the modal
+		  var recipient = button.data('whatever') // Extract info from data-* attributes
+		  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+		  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+		  var modal = $(this)
+		  modal.find('.modal-title').text('Renaming a node')
 		});
 		</script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

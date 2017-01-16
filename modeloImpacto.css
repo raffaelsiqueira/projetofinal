@@ -26,6 +26,12 @@
   			  top:    13%;
 			}
 
+		#textArea2  {
+			  position:absolute;
+  			  right:  1%;
+  			  top:    28%;
+			}
+
 
 			h1 {
 				opacity: 0.5;
