@@ -267,7 +267,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="add">Create node</button>
+        <button type="button" class="btn btn-primary" id="add" onclick="return add();">Create node</button>
 
       </div>
     </div>
@@ -362,7 +362,9 @@
 
 
 
-		$("#add").on('click',function (){
+		//$("#add").on('click', add());
+
+			function add(){
 				let idText = $("#nodeName").val();
 				let nivelPai = cy.getElementById(selectedNode).data("nivel");
 				if (idText == ''){
@@ -409,7 +411,7 @@
 					cy.getElementById(i).style("background-color","#FF0000");
 				}
 				//cy.fit();
-			});
+			}
 		$("#remove").on("click",function (){
 			var idAtual = cy.getElementById(selectedNode).data("id");
 			var arestas = cy.elements('edge[source=idAtual]');

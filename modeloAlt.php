@@ -78,7 +78,7 @@
 					],
 					elements: {
 						nodes: [
-							{ data: { id: '0' , nivel: 0, description: ''} },
+							{ data: { id: '0' , nivel: 0, description: '', valor: '0'} },
 						],
 						edges: []
 					},
@@ -114,8 +114,8 @@
 	<div class="chartContainer">
   		<div>
     		<canvas id="myChart"></canvas>
-    		<button id="addData">Add Data</button>
-    		<button id="removeData">Remove Data</button>
+    		<!--<button id="addData" onclick="return addData();">Add Data</button>
+    		<button id="removeData">Remove Data</button>-->
   		</div>
 	</div>
 
@@ -127,7 +127,7 @@
 	var config ={
   		type: 'radar',
   		data: {
-    		labels: ['First'],
+    		labels: [],
     		datasets: [{
       	label: 'Impact Analysis',
       	data: [12],
@@ -142,9 +142,11 @@
         window.myRadar = new Chart(document.getElementById("myChart"), config);
     };
 
-	document.getElementById('addData').addEventListener('click', function() {
+	//document.getElementById('addData').addEventListener('click', addData());
+
+		function addData(texto) {
         if (config.data.datasets.length > 0) {
-            config.data.labels.push('dataset #' + config.data.labels.length);
+            config.data.labels.push(texto);
 
             config.data.datasets.forEach(function (dataset) {
                 dataset.data.push(12);
@@ -152,7 +154,7 @@
 
             window.myRadar.update();
         }
-    });
+    }
 
 	document.getElementById('removeData').addEventListener('click', function() {
         config.data.labels.pop(); // remove the label first
@@ -256,6 +258,31 @@
             <label for="recipient-name" class="control-label">Description:</label>
             <input type="text" class="form-control" id="recipient-name">
           </div>
+
+
+         	<div class="containerRadio">
+
+         		<h4 class="modal-title2" id="descriptionradio">Valor level</h4>
+       			<label class="radio-inline">
+         		 <input type="radio" name="inlineRadioOptions" id="Radio1" value="option1">  1
+        		</label>
+        		<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio2" value="option2"> 2
+        		</label>
+       			<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio3" value="option3"> 3
+        		</label>
+        		<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio4" value="option4"> 4
+        		</label>
+        		<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio5" value="option5"> 5
+        		</label>
+
+
+      		</div>
+
+
         </form>
       </div>
       <div class="modal-footer">
@@ -281,11 +308,34 @@
             <label for="recipient-name" class="control-label">Name of the node:</label>
             <input type="text" class="form-control" id="nodeName">
           </div>
+
+          <div class="containerRadio">
+
+         		<h4 class="modal-title2" id="descriptionradio">Valor level</h4>
+       			<label class="radio-inline">
+         		 <input type="radio" name="inlineRadioOptions" id="Radio1" value="option1">  1
+        		</label>
+        		<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio2" value="option2"> 2
+        		</label>
+       			<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio3" value="option3"> 3
+        		</label>
+        		<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio4" value="option4"> 4
+        		</label>
+        		<label class="radio-inline">
+          		 <input type="radio" name="inlineRadioOptions" id="Radio5" value="option5"> 5
+        		</label>
+
+
+      		</div>
+
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="add">Create node</button>
+        <button type="button" class="btn btn-primary" id="add" onclick="return add();">Create node</button>
 
       </div>
     </div>
@@ -325,7 +375,9 @@
 		});
 		//let level = 0;
 		//console.log(cy.getElementById(selectedNode).children());
-		$("#add").on('click',function (){
+		//$("#add").on('click',add());
+
+			function add(){
 				let idText = $("#nodeName").val();
 				let nivelPai = cy.getElementById(selectedNode).data("nivel");
 				if (idText == ''){
@@ -337,11 +389,14 @@
 							{ group: "edges", data: { id: 'edge'+i, source: selectedNode, target: idText}}
 						]);
 						cy.getElementById(idText).data("nivel", nivelPai + 1);
+						//cy.getElementById(idText).data("valor", )
 						//console.log(cy.getElementById(idText).data("nivel"));
 						cy
 						i++;
+						addData(idText);
 						$('#createNodeModal').modal('hide');
 					    $('#createNodeModal').find('.modal-body input').val("")
+
 					}else{
 						alert("Only the main node can be branched");
 					}
@@ -351,7 +406,7 @@
 					cy.getElementById(idText).style('shape', 'roundrectangle');
 					cy.getElementById(idText).style("background-color","#a9a9a9");
 				}
-			});
+			}
 		
 		$("#remove").on("click",function (){
 			var idAtual = cy.getElementById(selectedNode).data("id");
