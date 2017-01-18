@@ -25,7 +25,7 @@
 		</style>
 
 		
-		<textarea id ="textArea1" rows="4" cols="40" placeholder="Description">
+		<textarea id ="textArea1" rows="4" cols="40" readonly placeholder="Description">
 		</textarea>
 
 		<textarea id ="textArea2" rows="4" cols="40" placeholder="Impact Result">
@@ -151,6 +151,7 @@
             <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo">Rename selected node</a></li>
             <li><a href="#" id="remove">Remove selected node</a></li>
             <li><a href="#" id="center">Center map</a></li>
+            <li><a href='#' id="pdf" onclick="pdf()">Download as PDF</a></li>
             <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo">Change node description</a></li>
             <li><a href="#" id="openAltModel" onclick="return openAltModel();">Open alternative model</a></li>
             <li role="separator" class="divider"></li>
@@ -270,14 +271,44 @@
   </div>
 </div>
 
+
 		<script>
 		let i = 0;
 		let nId = 1;
+
+		$(document).keypress(function(e) {
+		  if(e.charCode == 99) {
+		    alert("Você apertou c");
+		  }
+		});
 
 
 
 		//let level = 0;
 		//console.log(cy.getElementById(selectedNode).children());
+
+		function pdf(){
+			var doc = new jsPDF();
+			let y = 10;
+			let x = 20;
+
+			cy.nodes().forEach(function(node){
+				doc.text(node.style('content'), 10, y);
+				y+=10;
+				doc.text(node.data('description'), x, y);
+				y+=10;
+			});
+
+			
+			doc.save('description.pdf');
+		}
+
+	/*	$('#pdf').on('click', function(){
+			var doc = new jsPDF()
+
+			doc.text('Hello world!', 10, 10)
+			doc.save('descriptions.pdf')
+		});  */
 
 		$('#update').on('click', function (){
 			let nodeDescription = $("#recipient-name").val();
@@ -433,6 +464,8 @@
 		});
 
 		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+		<script src="shortcut.js"></script>
 		
 	</body>
 
