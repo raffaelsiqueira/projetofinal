@@ -20,11 +20,10 @@
 		<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.1.2/cytoscape-dagre.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-		<style>
-		
-		</style>
+		<!-- Chart js implementado aqui     -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
-		
+
 		<textarea id ="textArea1" rows="4" cols="40" readonly placeholder="Description">
 		</textarea>
 
@@ -128,6 +127,34 @@
 	</head>
 
 	<body>
+
+	<div class="chartContainer">
+  		<div>
+    		<canvas id="myChart"></canvas>
+  		</div>
+	</div>
+
+	<script>
+
+	var ctx = document.getElementById('myChart').getContext('2d');
+
+	var myChart = new Chart(ctx, {
+  		type: 'bar',
+  		data: {
+    		labels: ['First', 'Second', 'Third'],
+    		datasets: [{
+      	label: 'Statistic Of Contribution',
+      	data: [12, 19, 3],
+      	backgroundColor: "rgba(153,255,51,0.6)"
+    	}]
+ 	 }
+	});
+
+	</script>
+
+
+
+
 
 	<!-- Navbar -->
 

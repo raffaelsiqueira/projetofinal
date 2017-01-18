@@ -20,9 +20,9 @@
 		<script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
 		<script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.1.2/cytoscape-dagre.js"></script>
 
-		<style>
-			
-		</style>
+		<!-- Chart js implementado aqui     -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
 
 		<textarea id ="textArea1" rows="4" cols="40" placeholder="Description">
 		</textarea>
@@ -106,6 +106,71 @@
 	</head>
 
 	<body>
+
+
+	<!--  IMPLEMENTAÇÃO DO CHART -->
+
+
+	<div class="chartContainer">
+  		<div>
+    		<canvas id="myChart"></canvas>
+    		<button id="addData">Add Data</button>
+    		<button id="removeData">Remove Data</button>
+  		</div>
+	</div>
+
+	<script>
+
+	//var ctx = document.getElementById('myChart').getContext('2d');
+
+
+	var config ={
+  		type: 'radar',
+  		data: {
+    		labels: ['First'],
+    		datasets: [{
+      	label: 'Impact Analysis',
+      	data: [12],
+      	backgroundColor: "rgba(153,255,51,0.6)"
+    	}]
+ 	 }
+	}
+
+	//var myChart = new Chart(ctx, config);
+
+	 window.onload = function() {
+        window.myRadar = new Chart(document.getElementById("myChart"), config);
+    };
+
+	document.getElementById('addData').addEventListener('click', function() {
+        if (config.data.datasets.length > 0) {
+            config.data.labels.push('dataset #' + config.data.labels.length);
+
+            config.data.datasets.forEach(function (dataset) {
+                dataset.data.push(12);
+            });
+
+            window.myRadar.update();
+        }
+    });
+
+	document.getElementById('removeData').addEventListener('click', function() {
+        config.data.labels.pop(); // remove the label first
+
+        config.data.datasets.forEach(function(dataset) {
+            dataset.data.pop();
+        });
+
+        window.myRadar.update();
+    });
+
+
+
+	</script>
+
+
+
+
 
 	<!-- <?php
 		$descripion = $_POST["description"];
