@@ -3,16 +3,17 @@
 set_include_path("google-api-php-client/src/" . PATH_SEPARATOR . get_include_path());
 
 require_once 'vendor/google/apiclient/src/Google/Client.php';
+require_once 'vendor/google/apiclient/src/Google/Service.php';
 require_once 'vendor/google/apiclient-services/src/Google/Service/Drive.php';
 require_once 'vendor/autoload.php';
-require_once 'vendor/google/apiclient/src/Google/Service.php';
+
 
 $client = new Google_Client();
 // Get your credentials from the console
-$client->setClientId('696383331717-agrn0e8i3nrf4ck0vt2c163i6n79772i.apps.googleusercontent.com');
-$client->setClientSecret('fvEiSJ6dK2J_FVE2SmVWMtxM');
-$client->setRedirectUri('http://localhost/projetofinal/index.php');
-$client->setScopes(array('https://www.googleapis.com/auth/drive.file'));
+$client->setClientId('696383331717-80cqsh56kcmimqktgsjeeqmau2p1hnhu.apps.googleusercontent.com');
+$client->setClientSecret('pnyLFFASAFNi2zwgc-Jh3ifb');
+$client->setRedirectUri('http://localhost/indexoriginal.php');
+$client->setScopes(array('https://www.googleapis.com/auth/drive', 'https://www.googleapis.com/auth/drive.apps.readonly'));
 
 session_start();
 

@@ -24,9 +24,17 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
 
-		<textarea id ="textArea1" rows="4" cols="40" placeholder="Description">
-		</textarea>
+		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 
+		<script src="../../Chart.bundle.js"></script>
+    	<script src="../utils.js"></script>
+    	<style>
+    		canvas {
+        	-moz-user-select: none;
+        	-webkit-user-select: none;
+        	-ms-user-select: none;
+   			 }
+    	</style>
 
 		<script>
 		var x = 0;
@@ -36,12 +44,6 @@
 		<!--<textarea id ="Tomoyo" name ="Sakura" rows="4" cols="50">
 				lalala
 		</textarea> -->
-
-	
-
-
-
-
 
 		<script>
 		let selectedNode=0;
@@ -78,7 +80,7 @@
 					],
 					elements: {
 						nodes: [
-							{ data: { id: '0' , nivel: 0, description: '', valor: '0'} },
+							{ data: { id: '0' , nivel: 0, description: ''} },
 						],
 						edges: []
 					},
@@ -86,9 +88,7 @@
 				});
 				//cy.getElementById(selectedNode).style("background-color","#000000");
 				
-
 				cy.zoom(4);
-
 				cy.on('click','node', function(e){
 					selectedNode = e.cyTarget.id();
 					cy.nodes().style('border-width', 'none');
@@ -108,70 +108,7 @@
 	<body>
 
 
-	<!--  IMPLEMENTAÇÃO DO CHART -->
-
-
-	<div class="chartContainer">
-  		<div>
-    		<canvas id="myChart"></canvas>
-    		<!--<button id="addData" onclick="return addData();">Add Data</button>
-    		<button id="removeData">Remove Data</button>-->
-  		</div>
-	</div>
-
-	<script>
-
-	//var ctx = document.getElementById('myChart').getContext('2d');
-
-
-	var config ={
-  		type: 'radar',
-  		data: {
-    		labels: [],
-    		datasets: [{
-      	label: 'Impact Analysis',
-      	data: [5],
-      	backgroundColor: "rgba(153,255,51,0.6)"
-    	}]
- 	 }
-	}
-
-	//var myChart = new Chart(ctx, config);
-
-	 window.onload = function() {
-        window.myRadar = new Chart(document.getElementById("myChart"), config);
-    };
-
-	//document.getElementById('addData').addEventListener('click', addData());
-
-		function addData(texto, valor) {
-        if (config.data.datasets.length > 0) {
-            config.data.labels.push(texto);
-
-            config.data.datasets.forEach(function (dataset) {
-                dataset.data.push(valor);
-            });
-
-            window.myRadar.update();
-        }
-    }
-
-	document.getElementById('removeData').addEventListener('click', function() {
-        config.data.labels.pop(); // remove the label first
-
-        config.data.datasets.forEach(function(dataset) {
-            dataset.data.pop();
-        });
-
-        window.myRadar.update();
-    });
-
-
-
-	</script>
-
-
-
+	
 
 
 	<!-- <?php
@@ -180,16 +117,23 @@
 	?> 
 	<div><?php echo $output; ?></div> -->
 
+ <!-- NAVBAR -->
 
-
-		<nav class="navbar navbar-default">
+		<nav class="navbar navbar-custom">
 			<ul class="nav navbar-nav navbar-left">
+			
+				<li class="nav-item">
+           	<h6 class="navbar-brand brand-name">
+      					<a href="#" class="pull-left"> <img src="images/imaplogo.png">imap</a> 
+   					</h6>
+       	</li>
+	
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="saveMap.php">Save map</a></li>
-            <li><a href="#">Load map</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="saveMap.php"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i>&nbsp; Save map</a></li>
+            <li><a href="#"><i class="fa fa-upload fa-fw" aria-hidden="true"></i>&nbsp; Load Map</a></li>
+            <li><a href="logout.php"><i class="fa fa-user-times  fa-fw" aria-hidden="true"></i>&nbsp; Logout</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Alguma coisa</a></li>
           </ul>
@@ -197,18 +141,110 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo">Create node</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Create node</a></li>
             <!--<li><input type="text" id="nodeName"></li>-->
-            <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo">Rename selected node</a></li>
-            <li><a href="#" id="remove">Remove selected node</a></li>
-            <li><a href="#" id="center">Center map</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo">Change node description</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Rename selected node</a></li>
+            <li><a href="#" id="remove"><i class="fa fa-remove fa-fw" aria-hidden="true"></i> Remove selected node</a></li>
+            <li><a href="#" id="center"><i class="fa fa-search fa-fw" aria-hidden="true"></i> Center map</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i> Change node description</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Alguma coisa</a></li>
+            <li><a href="#"><i class="fa fa-question fa-fw" aria-hidden="true"></i> Help</a></li>
           </ul>
         </li>
+
+         <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+       	
+       			<li><a  href="#"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i>&nbsp; Share</a></li>
+       			<li><a  href="#"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export as PDF</a></li> 
+          </ul>
+        </li>
+       	</li>
       </ul>
 	</nav>
+
+
+
+	<!-- SIDEBAR -->
+
+	<div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-3 hidden-xs-down bg-faded sidebariMap">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" >Node Description</a>
+              <textarea id ="textArea1" rows="4" cols="35" placeholder="Description"></textarea>
+            </li>
+
+            <li class="nav-item">
+            <a class="nav-link" >Impact Analysis</a>
+
+            		<!--  IMPLEMENTAÇÃO DO CHART -->
+
+
+
+  		<div>
+    		<canvas id="myChart"></canvas>
+    		<button id="addData">Add Data</button>
+    		<button id="removeData">Remove Data</button>
+  		</div>				
+			<script>
+
+					var config ={
+				  		type: 'radar',
+				  		data: {
+				    		labels: ['First'],
+				    		datasets: [{
+				      	label: 'Impact Analysis',
+				      	data: [12],
+				      	backgroundColor: "rgba(153,255,51,0.6)"
+				    	}]
+				 	 }
+					}
+
+					//var myChart = new Chart(ctx, config);
+
+					 window.onload = function() {
+				        window.myRadar = new Chart(document.getElementById("myChart"), config);
+				    };
+
+						function addData(texto, valor) {
+					        if (config.data.datasets.length > 0) {
+					            config.data.labels.push(texto);
+
+					            config.data.datasets.forEach(function (dataset) {
+					                dataset.data.push(valor);
+					            });
+
+					            window.myRadar.update();
+					        }
+					    }
+					document.getElementById('removeData').addEventListener('click', function() {
+				        config.data.labels.pop(); // remove the label first
+
+				        config.data.datasets.forEach(function(dataset) {
+				            dataset.data.pop();
+				        });
+
+				        window.myRadar.update();
+				    });
+				</script>
+            </li>
+          </ul> 
+        </nav>
+       </div>
+    </div>
+
+
+<!--FOOTER-->
+	
+	    <footer class="footer">
+     		 <div class="containerFooter">
+       		 	<span class="text-muted">iMap - Developed by André Tardelli and Raffael Siqueira.</span>
+      		</div>
+    	</footer>
+
 
 		<div class="container-fluid">
 		
@@ -258,31 +294,6 @@
             <label for="recipient-name" class="control-label">Description:</label>
             <input type="text" class="form-control" id="recipient-name">
           </div>
-
-
-         	<div class="containerRadio">
-
-         		<h4 class="modal-title2" id="descriptionradio">Valor level</h4>
-       			<label class="radio-inline">
-         		 <input type="radio" name="inlineRadioOptions" id="Radio1" value="option1">  1
-        		</label>
-        		<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio2" value="option2"> 2
-        		</label>
-       			<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio3" value="option3"> 3
-        		</label>
-        		<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio4" value="option4"> 4
-        		</label>
-        		<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio5" value="option5"> 5
-        		</label>
-
-
-      		</div>
-
-
         </form>
       </div>
       <div class="modal-footer">
@@ -308,29 +319,6 @@
             <label for="recipient-name" class="control-label">Name of the node:</label>
             <input type="text" class="form-control" id="nodeName">
           </div>
-
-          <div class="containerRadio">
-
-         		<h4 class="modal-title2" id="descriptionradio">Valor level</h4>
-       			<label class="radio-inline">
-         		 <input type="radio" name="inlineRadioOptions" id="Radio1" value="option1">  1
-        		</label>
-        		<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio2" value="option2"> 2
-        		</label>
-       			<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio3" value="option3"> 3
-        		</label>
-        		<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio4" value="option4"> 4
-        		</label>
-        		<label class="radio-inline">
-          		 <input type="radio" name="inlineRadioOptions" id="Radio5" value="option5"> 5
-        		</label>
-
-
-      		</div>
-
         </form>
       </div>
       <div class="modal-footer">
@@ -375,9 +363,7 @@
 		});
 		//let level = 0;
 		//console.log(cy.getElementById(selectedNode).children());
-		//$("#add").on('click',add());
-
-			function add(){
+		$("#add").on('click',function (){
 				let idText = $("#nodeName").val();
 				let nivelPai = cy.getElementById(selectedNode).data("nivel");
 				if (idText == ''){
@@ -389,28 +375,12 @@
 							{ group: "edges", data: { id: 'edge'+i, source: selectedNode, target: idText}}
 						]);
 						cy.getElementById(idText).data("nivel", nivelPai + 1);
-						//cy.getElementById(idText).data("valor", )
 						//console.log(cy.getElementById(idText).data("nivel"));
 						cy
 						i++;
-						for (x=1; x<=5; x++){
-							//let selecionado = document.getElementById("Radio"+x).checked;
-							//alert(selecionado);
-							$('input:radio[name=inlineRadioOptions]').each(function(){
-								if($(this).is(':checked')){
-									alert($(this).val());
-								}
-							});
-							if (selecionado){
-								cy.getElementById(idText).data('valor',x);
-								alert("Radio"+x);
-
-							}
-						}
 						addData(idText, cy.getElementById(idText).data('valor'));
 						$('#createNodeModal').modal('hide');
 					    $('#createNodeModal').find('.modal-body input').val("")
-
 					}else{
 						alert("Only the main node can be branched");
 					}
@@ -420,7 +390,7 @@
 					cy.getElementById(idText).style('shape', 'roundrectangle');
 					cy.getElementById(idText).style("background-color","#a9a9a9");
 				}
-			}
+			});
 		
 		$("#remove").on("click",function (){
 			var idAtual = cy.getElementById(selectedNode).data("id");
@@ -469,7 +439,6 @@
 		$("#center").on("click",function (){
 			cy.fit();
 		});
-
 		$('#descriptionModal').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -480,7 +449,6 @@
 		  modal.find('.modal-title').text('Description of ' + cy.getElementById(selectedNode).data("idNome"))
 		  modal.find('.modal-body input').val(text)
 		});
-
 		$('#createNodeModal').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -489,7 +457,6 @@
 		  var modal = $(this)
 		  modal.find('.modal-title').text('Creating a new node')
 		});
-
 		$('#renameNodeModal').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  var recipient = button.data('whatever') // Extract info from data-* attributes

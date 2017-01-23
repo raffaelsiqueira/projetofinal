@@ -24,12 +24,18 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
 
+		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+		<link href="dashboard.css" rel="stylesheet">
+
+		<!--
 		<textarea id ="textArea1" rows="4" cols="40" readonly placeholder="Description">
 		</textarea>
 
 		<textarea id ="textArea2" rows="4" cols="40" placeholder="Impact Result">
 		</textarea>
-		
+		-->
 
 
 		<script>
@@ -123,49 +129,30 @@
 					//cy.getElementById(e.cyTarget.id()).style("background-color","#000000");
 				});
 			});
+
 		</script>
 	</head>
 
 	<body>
 
-	<div class="chartContainer">
-  		<div>
-    		<canvas id="myChart"></canvas>
-  		</div>
-	</div>
-
-	<script>
-
-	var ctx = document.getElementById('myChart').getContext('2d');
-
-	var myChart = new Chart(ctx, {
-  		type: 'bar',
-  		data: {
-    		labels: ['First', 'Second', 'Third'],
-    		datasets: [{
-      	label: 'Statistic Of Contribution',
-      	data: [12, 19, 3],
-      	backgroundColor: "rgba(153,255,51,0.6)"
-    	}]
- 	 }
-	});
-
-	</script>
-
-
-
-
-
 	<!-- Navbar -->
 
-	<nav class="navbar navbar-default">
+	
+	<nav class="navbar navbar-custom">
 			<ul class="nav navbar-nav navbar-left">
+			
+				<li class="nav-item">
+           	<h6 class="navbar-brand brand-name">
+      					<a href="#" class="pull-left"> <img src="images/imaplogo.png">imap</a> 
+   					</h6>
+       	</li>
+	
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="saveMap.php">Save map</a></li>
-            <li><a href="#">Load map</a></li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="saveMap.php"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i>&nbsp; Save map</a></li>
+            <li><a href="#"><i class="fa fa-upload fa-fw" aria-hidden="true"></i>&nbsp; Load Map</a></li>
+            <li><a href="logout.php"><i class="fa fa-user-times  fa-fw" aria-hidden="true"></i>&nbsp; Logout</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Alguma coisa</a></li>
           </ul>
@@ -173,32 +160,80 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo">Create node</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Create node</a></li>
             <!--<li><input type="text" id="nodeName"></li>-->
-            <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo">Rename selected node</a></li>
-            <li><a href="#" id="remove">Remove selected node</a></li>
-            <li><a href="#" id="center">Center map</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo">Change node description</a></li>
-            <li><a href="#" id="openAltModel" onclick="return openAltModel();">Open alternative model</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Rename selected node</a></li>
+            <li><a href="#" id="remove"><i class="fa fa-remove fa-fw" aria-hidden="true"></i> Remove selected node</a></li>
+            <li><a href="#" id="center"><i class="fa fa-search fa-fw" aria-hidden="true"></i> Center map</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i> Change node description</a></li>
+            <li><a href="#" id="openAltModel" onclick="return openAltModel();"><i class="fa fa-font fa-fw" aria-hidden="true"></i> Open alternative model</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Alguma coisa</a></li>
+            <li><a href="#"><i class="fa fa-question fa-fw" aria-hidden="true"></i> Help</a></li>
           </ul>
         </li>
 
-<li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports<span class="caret"></span></a>
+         <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href='#' id="pdf" onclick="pdf()">Download the node's descriptions as PDF</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Alguma coisa</a></li>
+       			<li><a  href="#"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i>&nbsp; Share</a></li>
+       			<li><a href='#' id="pdf" onclick="pdf()"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export as PDF</a></li> 
           </ul>
         </li>
-
+       	</li>
       </ul>
 	</nav>
 
 	<!--Navbar-->
 	
+
+	<!--SIDEBAR -->
+
+	 <div class="container-fluid">
+      <div class="row">
+        <nav class="col-sm-3 col-md-3 hidden-xs-down bg-faded sidebariMap">
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" >Node Description</a>
+              <textarea id ="textArea1" rows="4" cols="35" placeholder="Description"></textarea>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" >Impact Result</a>
+              	<textarea id ="textArea2" rows="4" cols="35" placeholder="Impact Result"></textarea>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" >Statistic of Contribution</a>
+    			<canvas id="myChart"></canvas>
+    					<script>
+							var ctx = document.getElementById('myChart').getContext('2d');
+					
+							var myChart = new Chart(ctx, {
+  								type: 'bar',
+  								data: {
+    								labels: ['First'],
+    								datasets: [{
+      							label: 'Statistic Of Contribution',
+      							data: [12],
+      							backgroundColor: "rgba(153,255,51,0.6)"
+    								}]
+ 	 								}
+									});
+							</script>
+            </li>
+          </ul> 
+        </nav>
+       </div>
+    </div>
+
+<!--FOOTER-->
+	
+	    <footer class="footer">
+     		 <div class="containerFooter">
+       		 	<span class="text-muted">iMap - Developed by André Tardelli and Raffael Siqueira.</span>
+      		</div>
+    	</footer>
+
+
 		<div class="container-fluid">
 		
 			<div class="row">
