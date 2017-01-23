@@ -7,9 +7,9 @@ include_once 'src/contrib/Google_Oauth2Service.php';
 /*
  * Configuration and setup Google API
  */
-$clientId = '318842794290-2m1dl9daegafau6mcc1d1lpjm4jkv3h1.apps.googleusercontent.com';
-$clientSecret = 'CPGW85NVauz9QEy4b83_pgvD';
-$redirectURL = 'http://localhost/modeloImpacto.php';
+$clientId = '696383331717-agrn0e8i3nrf4ck0vt2c163i6n79772i.apps.googleusercontent.com';
+$clientSecret = 'fvEiSJ6dK2J_FVE2SmVWMtxM';
+$redirectURL = 'http://localhost/projetofinal/modeloImpacto.php';
 
 //Call Google API
 $gClient = new Google_Client();

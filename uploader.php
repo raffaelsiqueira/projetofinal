@@ -1,47 +1,49 @@
 <?php
-require_once 'C:/wamp64/www/src/Google_Client.php';
-require_once 'C:/wamp64/www/src/contrib/Google_DriveService.php';
-require_once 'C:/wamp64/www/src/contrib/Google_Oauth2Service.php';
-require_once 'C:/wamp64/www/google-api-php-client/vendor/autoload.php';
+
+set_include_path("google-api-php-client/src/" . PATH_SEPARATOR . get_include_path());
+
+require_once 'vendor/google/apiclient/src/Google/Client.php';
+require_once 'vendor/google/apiclient-services/src/Google/Service/Drive.php';
+require_once 'vendor/autoload.php';
+require_once 'vendor/google/apiclient/src/Google/Service.php';
 
 $client = new Google_Client();
-    // Get your credentials from the console
-    
-	$client->setClientId('318842794290-2m1dl9daegafau6mcc1d1lpjm4jkv3h1.apps.googleusercontent.com');
-	$client->setClientSecret('CPGW85NVauz9QEy4b83_pgvD');
-	$client->setRedirectUri('urn:ietf:wg:oauth:2.0:oob');
-	$client->setScopes(array('https://www.googleapis.com/auth/drive'));
-	$client->setAuthConfig('C:/wamp64/www/client_secret.json');
-	$client->addScope(Google_Service_Drive::DRIVE);
-	$client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
+// Get your credentials from the console
+$client->setClientId('696383331717-agrn0e8i3nrf4ck0vt2c163i6n79772i.apps.googleusercontent.com');
+$client->setClientSecret('fvEiSJ6dK2J_FVE2SmVWMtxM');
+$client->setRedirectUri('http://localhost/projetofinal/index.php');
+$client->setScopes(array('https://www.googleapis.com/auth/drive.file'));
 
-    $service = new Google_DriveService($client);
+session_start();
 
-    $authUrl = $client->createAuthUrl();
+if (isset($_GET['code']) || (isset($_SESSION['access_token']) && $_SESSION['access_token'])) {
+    if (isset($_GET['code'])) {
+        $client->authenticate($_GET['code']);
+        $_SESSION['access_token'] = $client->getAccessToken();
+    } else
+        $client->setAccessToken($_SESSION['access_token']);
 
-    //Request authorization
-    print "Please visit:\n$authUrl\n\n";
-    print "Please enter the auth code:\n";
-    $authCode = trim(fgets(STDIN));
-
-    // Exchange authorization code for access token
-    $accessToken = $client->authenticate($authCode);
-    $client->setAccessToken($accessToken);
+    $service = new Google_Service_Drive($client);
 
     //Insert a file
-    $file = new Google_DriveFile();
-   // $localfile = 'a.jpg';
-    //$title = basename($localfile);
-    $file->setTitle('My Document');
-    $file->setDescription('Teste');
+    $file = new Google_Service_Drive_DriveFile();
+    $file->setName(uniqid().'.jpg');
+    $file->setDescription('A test document');
     $file->setMimeType('image/jpeg');
 
     $data = file_get_contents('a.jpg');
 
-    $createdFile = $service->files->insert($file, array(
+    $createdFile = $service->files->create($file, array(
           'data' => $data,
           'mimeType' => 'image/jpeg',
+          'uploadType' => 'multipart'
         ));
 
     print_r($createdFile);
+
+} else {
+    $authUrl = $client->createAuthUrl();
+    header('Location: ' . $authUrl);
+    exit();
+}
 ?>

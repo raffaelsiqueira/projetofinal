@@ -73,7 +73,7 @@
 
 					elements: {
 						nodes: [
-							{ data: { id: '0' , nivel: 0, description: ''} },
+							{ data: { id: '0' , nivel: 0, description: '', type: '', metric: 0} },
 						],
 						edges: []
 					},
@@ -178,13 +178,22 @@
             <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo">Rename selected node</a></li>
             <li><a href="#" id="remove">Remove selected node</a></li>
             <li><a href="#" id="center">Center map</a></li>
-            <li><a href='#' id="pdf" onclick="pdf()">Download as PDF</a></li>
             <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo">Change node description</a></li>
             <li><a href="#" id="openAltModel" onclick="return openAltModel();">Open alternative model</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Alguma coisa</a></li>
           </ul>
         </li>
+
+<li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reports<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href='#' id="pdf" onclick="pdf()">Download the node's descriptions as PDF</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Alguma coisa</a></li>
+          </ul>
+        </li>
+
       </ul>
 	</nav>
 
@@ -319,11 +328,17 @@
 			let y = 10;
 			let x = 20;
 
+			doc.text(cy.getElementById(0).style('content'), 50, y);
+			y+=10;
+
 			cy.nodes().forEach(function(node){
-				doc.text(node.style('content'), 10, y);
-				y+=10;
-				doc.text(node.data('description'), x, y);
-				y+=10;
+				if(node.data('id')!=0){
+					doc.text(node.data('type'), 10, y);
+					y+=10;
+					doc.text(node.style('content') + ': ' + node.data('description'), x, y);
+					y+=10;	
+				}
+				
 			});
 
 			
@@ -377,7 +392,7 @@
 						]);
 						cy.getElementById(i+1).data("nivel", nivelPai + 1);
 						//console.log(cy.getElementById(idText).data("nivel"));
-						cy
+						
 						i++;
 					}else{
 						cy.add([
@@ -393,23 +408,24 @@
 				if(nodeLevel == 1){
 					cy.getElementById(i).style('shape', 'triangle');
 					cy.getElementById(i).style("background-color","#00FF00");
+					cy.getElementById(i).data('type', 'Scenario');
 				}
 				else if(nodeLevel == 2){
 					cy.getElementById(i).style('shape', 'roundrectangle');
 					cy.getElementById(i).style("background-color","#FF8C00");	
+					cy.getElementById(i).data('type', 'Alternative');
 				}
 				else if(nodeLevel == 3){
 					cy.getElementById(i).style('shape', 'diamond');
 					cy.getElementById(i).style("background-color","#0000FF");
+					cy.getElementById(i).data('type', 'Implication');
 				}
 				else if(nodeLevel == 4){
-					cy.getElementById(i).style('shape', 'rectangle');
-					cy.getElementById(i).style("background-color","#a9a9a9");
-				}
-				else if(nodeLevel == 5){
 					cy.getElementById(i).style('shape', 'star');
 					cy.getElementById(i).style("background-color","#FF0000");
+					cy.getElementById(i).data('type', 'Impact');
 				}
+				
 				//cy.fit();
 			}
 		$("#remove").on("click",function (){

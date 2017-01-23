@@ -130,7 +130,7 @@
     		labels: [],
     		datasets: [{
       	label: 'Impact Analysis',
-      	data: [12],
+      	data: [5],
       	backgroundColor: "rgba(153,255,51,0.6)"
     	}]
  	 }
@@ -144,12 +144,12 @@
 
 	//document.getElementById('addData').addEventListener('click', addData());
 
-		function addData(texto) {
+		function addData(texto, valor) {
         if (config.data.datasets.length > 0) {
             config.data.labels.push(texto);
 
             config.data.datasets.forEach(function (dataset) {
-                dataset.data.push(12);
+                dataset.data.push(valor);
             });
 
             window.myRadar.update();
@@ -393,7 +393,21 @@
 						//console.log(cy.getElementById(idText).data("nivel"));
 						cy
 						i++;
-						addData(idText);
+						for (x=1; x<=5; x++){
+							//let selecionado = document.getElementById("Radio"+x).checked;
+							//alert(selecionado);
+							$('input:radio[name=inlineRadioOptions]').each(function(){
+								if($(this).is(':checked')){
+									alert($(this).val());
+								}
+							});
+							if (selecionado){
+								cy.getElementById(idText).data('valor',x);
+								alert("Radio"+x);
+
+							}
+						}
+						addData(idText, cy.getElementById(idText).data('valor'));
 						$('#createNodeModal').modal('hide');
 					    $('#createNodeModal').find('.modal-body input').val("")
 
