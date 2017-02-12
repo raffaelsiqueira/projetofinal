@@ -80,7 +80,7 @@
 					],
 					elements: {
 						nodes: [
-							{ data: { id: '0' , nivel: 0, description: ''} },
+							{ data: { id: '0' , nivel: 0, description: '', valor: 0} },
 						],
 						edges: []
 					},
@@ -111,11 +111,8 @@
 	
 
 
-	<!-- <?php
-		$descripion = $_POST["description"];
-		echo description;
-	?> 
-	<div><?php echo $output; ?></div> -->
+	
+	
 
  <!-- NAVBAR -->
 
@@ -186,18 +183,18 @@
 
   		<div>
     		<canvas id="myChart"></canvas>
-    		<button id="addData">Add Data</button>
-    		<button id="removeData">Remove Data</button>
+    		<!--<button id="addData">Add Data</button>
+    		<button id="removeData">Remove Data</button>-->
   		</div>				
 			<script>
 
 					var config ={
 				  		type: 'radar',
 				  		data: {
-				    		labels: ['First'],
+				    		labels: [],
 				    		datasets: [{
-				      	label: 'Impact Analysis',
-				      	data: [12],
+				      	label: 'Alternative Analysis',
+				      	data: [],
 				      	backgroundColor: "rgba(153,255,51,0.6)"
 				    	}]
 				 	 }
@@ -295,6 +292,16 @@
             <input type="text" class="form-control" id="recipient-name">
           </div>
         </form>
+
+        <form>
+        	<label form="recipient-name" class="control-label">Set a Level:</label>
+  			<input type="radio" name="DescVal" value="1">    1 
+  			<input type="radio" name="DescVal" value="2">    2
+  			<input type="radio" name="DescVal" value="3">    3
+  			<input type="radio" name="DescVal" value="4">    4
+  			<input type="radio" name="DescVal" value="5">    5
+		</form>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -320,6 +327,16 @@
             <input type="text" class="form-control" id="nodeName">
           </div>
         </form>
+
+        <form id="radiobuttons">
+        	<label form="recipient-name" class="control-label">Set a Level:</label>
+  			<input type="radio" name="ImpVal" value="1">    1 
+  			<input type="radio" name="ImpVal" value="2">    2
+  			<input type="radio" name="ImpVal" value="3">    3
+  			<input type="radio" name="ImpVal" value="4">    4
+  			<input type="radio" name="ImpVal" value="5">    5
+		</form>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -357,7 +374,6 @@
 		let i = 0;
 		$('#update').on('click', function (){
 			let nodeDescription = $("#recipient-name").val();
-			//alert(nodeDescription);
 			cy.getElementById(selectedNode).data("description", nodeDescription);
 			$('#descriptionModal').modal('hide');
 		});
@@ -366,8 +382,9 @@
 		$("#add").on('click',function (){
 				let idText = $("#nodeName").val();
 				let nivelPai = cy.getElementById(selectedNode).data("nivel");
+				
 				if (idText == ''){
-					alert("Escreva o nome do no!");
+					alert("Write a name for a node!");
 				}else{
 					if ((!(cy.nodes().length == 0)) && (cy.getElementById(selectedNode).data("nivel") == 0) ){
 						cy.add([
@@ -376,11 +393,10 @@
 						]);
 						cy.getElementById(idText).data("nivel", nivelPai + 1);
 						//console.log(cy.getElementById(idText).data("nivel"));
-						cy
 						i++;
-						addData(idText, cy.getElementById(idText).data('valor'));
+						verificaCreateRadio(idText);
 						$('#createNodeModal').modal('hide');
-					    $('#createNodeModal').find('.modal-body input').val("")
+					    $('#createNodeModal').find('.modal-body input').val("");
 					}else{
 						alert("Only the main node can be branched");
 					}
@@ -391,6 +407,13 @@
 					cy.getElementById(idText).style("background-color","#a9a9a9");
 				}
 			});
+
+		function verificaCreateRadio(node){
+				alert($('input[name="ImpVal"]:checked').val());
+				cy.getElementById(node).data("valor", $('input[name="ImpVal"]:checked').val());
+				addData(node, cy.getElementById(node).data("valor"));
+				$('input[name="ImpVal"]').attr('checked',false);
+		}
 		
 		$("#remove").on("click",function (){
 			var idAtual = cy.getElementById(selectedNode).data("id");

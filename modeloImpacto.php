@@ -160,13 +160,14 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Create node</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Create node (Shift+C)</a></li>
             <!--<li><input type="text" id="nodeName"></li>-->
-            <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Rename selected node</a></li>
-            <li><a href="#" id="remove"><i class="fa fa-remove fa-fw" aria-hidden="true"></i> Remove selected node</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Rename selected node (Shift+R)</a></li>
+            <li><a href="#" id="remove" onclick="remove()"><i class="fa fa-remove fa-fw" aria-hidden="true"></i> Remove selected node (del)</a></li>
             <li><a href="#" id="center"><i class="fa fa-search fa-fw" aria-hidden="true"></i> Center map</a></li>
             <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i> Change node description</a></li>
             <li><a href="#" id="openAltModel" onclick="return openAltModel();"><i class="fa fa-font fa-fw" aria-hidden="true"></i> Open alternative model</a></li>
+            <li><a href='#' id="pdf" onclick="pdf()"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export descriptions as PDF</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#"><i class="fa fa-question fa-fw" aria-hidden="true"></i> Help</a></li>
           </ul>
@@ -176,7 +177,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<span class="caret"></span></a>
           <ul class="dropdown-menu">
        			<li><a  href="#"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i>&nbsp; Share</a></li>
-       			<li><a href='#' id="pdf" onclick="pdf()"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export as PDF</a></li> 
+       			<li><a href='#' id="pdf" onclick="exportMap()"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export map as PDF</a></li> 
           </ul>
         </li>
        	</li>
@@ -347,16 +348,50 @@
 		let i = 0;
 		let nId = 1;
 
-		$(document).keypress(function(e) {
+		var pressedShift = false;
+		
+		$(document).keyup(function(e){
+			if(e.which == 16) pressedShift = false;
+		})
+		
+		$(document).keydown(function(e){
+			if(e.which == 16) pressedShift = true;
+			if((e.which == 67 || e.keyCode == 67) && pressedShift == true) {
+				$('#createNodeModal').modal('show');
+			}
+		})
+
+		$(document).keydown(function(e){
+			if(e.which == 16) pressedShift = true;
+			if((e.which == 82 || e.keyCode == 82) && pressedShift == true) {
+				$('#renameNodeModal').modal('show');
+			}
+		})
+
+		$(document).keydown(function(e){
+			if(e.which == 46 || e.keyCode == 46){
+				remove();
+			}
+		})
+
+	/*	$(document).keypress(function(e) {
 		  if(e.charCode == 99) {
 		    alert("Você apertou c");
 		  }
-		});
+		}); */
 
 
 
 		//let level = 0;
 		//console.log(cy.getElementById(selectedNode).children());
+
+		function exportMap(){
+			 var doc = new jsPDF('landscape', 'pt', 'a4');
+			 doc.addHTML(document.body,function(){
+			 	doc.save("teste.pdf");
+			 });
+		
+		}
 
 		function pdf(){
 			var doc = new jsPDF();
@@ -376,7 +411,6 @@
 				
 			});
 
-			
 			doc.save('description.pdf');
 		}
 
@@ -463,7 +497,7 @@
 				
 				//cy.fit();
 			}
-		$("#remove").on("click",function (){
+		function remove(){
 			var idAtual = cy.getElementById(selectedNode).data("id");
 			var arestas = cy.elements('edge[source=idAtual]');
 			var temFilho = 0;
@@ -502,7 +536,7 @@
 				}
 				//cy.getElementById(selectedNode).style("background-color","#000000");
 			}
-		});
+		}
 
 		$("#edit").on ("click",function (){
 			let idText = $("#nodeRename").val();
@@ -544,6 +578,7 @@
 		});
 
 		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
 		<script src="shortcut.js"></script>
 		
