@@ -26,6 +26,13 @@
 
 		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 
+		<!--Coisas para a sidebar-->
+		 <meta charset="utf-8">
+   		 <meta name="viewport" content="width=device-width, initial-scale=1">
+   		 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+     	 <link href="barra.css" rel="stylesheet" />
+
+
 		<script src="../../Chart.bundle.js"></script>
     	<script src="../utils.js"></script>
     	<style>
@@ -95,6 +102,7 @@
 					cy.nodes().style('border-color', 'white');
 					cy.getElementById(selectedNode).style('border-width', '1');
 					cy.getElementById(selectedNode).style('border-color', 'black');
+					$('#textArea1').val(cy.getElementById(selectedNode).data("description"));
 					//$('textarea#Tomoyo').val(e.cyTarget.id());
 					//var message = $('textarea#Tomoyo').val();
 					//alert(message);
@@ -162,76 +170,80 @@
 	</nav>
 
 
-
 	<!-- SIDEBAR -->
 
-	<div class="container-fluid">
-      <div class="row">
-        <nav class="col-sm-3 col-md-3 hidden-xs-down bg-faded sidebariMap">
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link" >Node Description</a>
-              <textarea id ="textArea1" rows="4" cols="35" placeholder="Description"></textarea>
+	 <div id="wrapper" class="active">
+      <!-- Sidebar -->
+            <!-- Sidebar -->
+      <div id="sidebar-wrapper">
+      <ul id="sidebar_menu" class="sidebar-nav">
+           <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+      </ul>
+        <ul class="sidebar-nav" id="sidebar">     
+			
+			<li class="panel-group" id="accordion">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Node Description<span class="sub_icon glyphicon glyphicon-text-background"></a>
+              <div id="collapseOne" class="panel-collapse collapse in">
+             	 <textarea id ="textArea1" rows="3" cols="25" placeholder="Description"></textarea>
+              </div>
             </li>
 
-            <li class="nav-item">
-            <a class="nav-link" >Impact Analysis</a>
+            <li class="panel-group" id="accordion">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Impact Analysis<span class="sub_icon glyphicon glyphicon-text-background"></a>
+              <div id="collapseTwo" class="panel-collapse collapse in">
 
             		<!--  IMPLEMENTAÇÃO DO CHART -->
-
-
-
-  		<div>
-    		<canvas id="myChart"></canvas>
-    		<!--<button id="addData">Add Data</button>
-    		<button id="removeData">Remove Data</button>-->
-  		</div>				
-			<script>
-
-					var config ={
-				  		type: 'radar',
-				  		data: {
-				    		labels: [],
-				    		datasets: [{
-				      	label: 'Alternative Analysis',
-				      	data: [],
-				      	backgroundColor: "rgba(153,255,51,0.6)"
-				    	}]
-				 	 }
-					}
-
-					//var myChart = new Chart(ctx, config);
-
-					 window.onload = function() {
-				        window.myRadar = new Chart(document.getElementById("myChart"), config);
-				    };
-
-						function addData(texto, valor) {
-					        if (config.data.datasets.length > 0) {
-					            config.data.labels.push(texto);
-
-					            config.data.datasets.forEach(function (dataset) {
-					                dataset.data.push(valor);
-					            });
-
-					            window.myRadar.update();
-					        }
-					    }
-					document.getElementById('removeData').addEventListener('click', function() {
-				        config.data.labels.pop(); // remove the label first
-
-				        config.data.datasets.forEach(function(dataset) {
-				            dataset.data.pop();
-				        });
-
-				        window.myRadar.update();
-				    });
-				</script>
+		  		<div>
+		    		<canvas id="myChart"></canvas>
+		    		<!--<button id="addData">Add Data</button>
+		    		<button id="removeData">Remove Data</button>-->
+		  		</div>				
+					<script>
+							var config ={
+						  		type: 'radar',
+						  		data: {
+						    		labels: [],
+						    		datasets: [{
+						      	label: 'Alternative Analysis',
+						      	data: [],
+						      	backgroundColor: "rgba(153,255,51,0.6)"
+						    	}]
+						 	 }
+							}
+							//var myChart = new Chart(ctx, config);
+							 window.onload = function() {
+						        window.myRadar = new Chart(document.getElementById("myChart"), config);
+						    };
+								function addData(texto, valor) {
+							        if (config.data.datasets.length > 0) {
+							            config.data.labels.push(texto);
+							            config.data.datasets.forEach(function (dataset) {
+							                dataset.data.push(valor);
+							            });
+							            window.myRadar.update();
+							        }
+							    }
+							document.getElementById('removeData').addEventListener('click', function() {
+						        config.data.labels.pop(); // remove the label first
+						        config.data.datasets.forEach(function(dataset) {
+						            dataset.data.pop();
+						        });
+						        window.myRadar.update();
+						    });
+						</script>
             </li>
           </ul> 
-        </nav>
        </div>
     </div>
+
+
+     <script type="text/javascript">
+      $("#menu-toggle").click(function(e) {
+       e.preventDefault();
+       $("#wrapper").toggleClass("active");
+       $("#cy").toggleClass("active");
+      });
+    </script>
 
 
 <!--FOOTER-->
@@ -370,8 +382,22 @@
     </div>
   </div>
 </div>
+
+<?php
+	$title = $_GET['title'];
+	$description = $_GET['description'];
+?>
+
 		<script>
 		let i = 0;
+		var altTitle = "<?php print $title; ?>";
+		var altDescription = "<?php print $description; ?>";
+
+		window.onload = function(){
+			cy.getElementById(selectedNode).style("content", altTitle);
+			cy.getElementById(selectedNode).data("description", altDescription);	
+		}
+		
 
 		var pressedShift = false;
 		
@@ -385,35 +411,29 @@
 				$('#createNodeModal').modal('show');
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 16) pressedShift = true;
 			if((e.which == 82 || e.keyCode == 82) && pressedShift == true) {
 				$('#renameNodeModal').modal('show');
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 46 || e.keyCode == 46){
 				remove();
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 16) pressedShift = true;
 			if((e.which == 77 || e.keyCode == 77) && pressedShift == true) {
 				center();
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 16) pressedShift = true;
 			if((e.which == 68 || e.keyCode == 68) && pressedShift == true) {
 				$('#descriptionModal').modal('show');
 			}
 		})
-
-
 		$('#update').on('click', function (){
 			let nodeDescription = $("#recipient-name").val();
 			cy.getElementById(selectedNode).data("description", nodeDescription);
@@ -449,7 +469,6 @@
 					cy.getElementById(idText).style("background-color","#a9a9a9");
 				}
 			});
-
 		function verificaCreateRadio(node){
 				alert($('input[name="ImpVal"]:checked').val());
 				cy.getElementById(node).data("valor", $('input[name="ImpVal"]:checked').val());

@@ -29,29 +29,25 @@
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 		<link href="dashboard.css" rel="stylesheet">
 
-		<!--
-		<textarea id ="textArea1" rows="4" cols="40" readonly placeholder="Description">
-		</textarea>
+	<!-- Coisas que eu tive que importar para a formatação da barra funcionar. Rever o que precisa ou não -->
 
-		<textarea id ="textArea2" rows="4" cols="40" placeholder="Impact Result">
-		</textarea>
-		-->
+		 <meta charset="utf-8">
+   		 <meta name="viewport" content="width=device-width, initial-scale=1">
+   		 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+     	 <link href="barra.css" rel="stylesheet" />
+
 
 
 		<script>
 		let selectedNode=0;
 			$(function(){
-
 				var cy = window.cy = cytoscape({
 					container: document.getElementById('cy'),
-
           boxSelectionEnabled: false,
           autounselectify: true,
-
 					layout: {
 						name: 'dagre'
 					},
-
 					style: [
 						{
 							selector: 'node',
@@ -64,7 +60,6 @@
 								'background-color': '#a9a9a9'
 							}
 						},
-
 						{
 							selector: 'edge',
 							style: {
@@ -76,7 +71,6 @@
 							}
 						}
 					],
-
 					elements: {
 						nodes: [
 							{ data: { id: '0' , nivel: 0, description: '', type: '', metric: 0} },
@@ -86,7 +80,6 @@
 					
 				});
 				//cy.getElementById(selectedNode).style("background-color","#000000");
-
 				cy.zoom(4);
 				
 				cy.on('click','node', function(e){
@@ -96,12 +89,10 @@
 					cy.getElementById(selectedNode).style('border-width', '1');
 					cy.getElementById(selectedNode).style('border-color', 'black');
 					$('#textArea1').val(cy.getElementById(selectedNode).data("description"));
-
 					/*
 				function reqListener () {
       				console.log(this.responseText);
     			}
-
 			    var oReq = new XMLHttpRequest(); //New request object
 			    oReq.onload = function() {
 			        //This is where you handle what to do with the response.
@@ -117,19 +108,12 @@
 					*/
 					//$('textarea#Tomoyo').val(e.cyTarget.id());
 					//$('textarea#Tomoyo').prop("disabled", "");
-
-
 					//var message = $('textarea#Tomoyo').val();
 					//alert(message);
-
    					//alert(document.getElementById("Tomoyo").name);
-
-
-
 					//cy.getElementById(e.cyTarget.id()).style("background-color","#000000");
 				});
 			});
-
 		</script>
 	</head>
 
@@ -187,24 +171,36 @@
 	<!--Navbar-->
 	
 
-	<!--SIDEBAR -->
-
-	 <div class="container-fluid">
-      <div class="row">
-        <nav class="col-sm-3 col-md-3 hidden-xs-down bg-faded sidebariMap">
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item">
-              <a class="nav-link" >Node Description</a>
-              <textarea id ="textArea1" rows="4" cols="35" placeholder="Description"></textarea>
+	<!-- SIDEBAR -->
+ <div id="wrapper" class="active">
+      <!-- Sidebar -->
+            <!-- Sidebar -->
+      <div id="sidebar-wrapper">
+      <ul id="sidebar_menu" class="sidebar-nav">
+           <li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+      </ul>
+        <ul class="sidebar-nav" id="sidebar">     
+			
+			<li class="panel-group" id="accordion">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Node Description<span class="sub_icon glyphicon glyphicon-text-background"></a>
+              <div id="collapseOne" class="panel-collapse collapse in">
+             	 <textarea id ="textArea1" rows="3" cols="25" placeholder="Description"></textarea>
+              </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" >Impact Result</a>
-              	<textarea id ="textArea2" rows="4" cols="35" placeholder="Impact Result"></textarea>
+
+            <li class="panel-group" id="accordion">
+              <a  data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" >Impact Result <span class="sub_icon glyphicon glyphicon-exclamation-sign"></a>
+              	<div id="collapseTwo" class="panel-collapse collapse in">
+              		<textarea id ="textArea2" rows="3" cols="25" placeholder="Impact Result"></textarea>
+            	</div>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" >Statistic of Contribution</a>
-    			<canvas id="myChart"></canvas>
+            <li class="panel-group" id="accordion">
+              <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Statistic of Contribution <span class="sub_icon glyphicon glyphicon-stats"></a>
+    			<div id="collapseThree" class="panel-collapse collapse in">
+    				<canvas id="myChart"></canvas>
+    			</div>
+
     					<script>
 							var ctx = document.getElementById('myChart').getContext('2d');
 					
@@ -221,10 +217,17 @@
 									});
 							</script>
             </li>
-          </ul> 
-        </nav>
-       </div>
-    </div>
+        </ul>
+      </div>
+   </div>
+    <script type="text/javascript">
+      $("#menu-toggle").click(function(e) {
+       e.preventDefault();
+       $("#wrapper").toggleClass("active");
+       $("#cy").toggleClass("active");
+      });
+    </script>
+
 
 <!--FOOTER-->
 	
@@ -347,7 +350,6 @@
 		<script>
 		let i = 0;
 		let nId = 1;
-
 		var pressedShift = false;
 		
 		$(document).keyup(function(e){
@@ -360,52 +362,42 @@
 				$('#createNodeModal').modal('show');
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 16) pressedShift = true;
 			if((e.which == 82 || e.keyCode == 82) && pressedShift == true) {
 				$('#renameNodeModal').modal('show');
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 46 || e.keyCode == 46){
 				remove();
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 16) pressedShift = true;
 			if((e.which == 77 || e.keyCode == 77) && pressedShift == true) {
 				center();
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 16) pressedShift = true;
 			if((e.which == 68 || e.keyCode == 68) && pressedShift == true) {
 				$('#descriptionModal').modal('show');
 			}
 		})
-
 		$(document).keydown(function(e){
 			if(e.which == 16) pressedShift = true;
 			if((e.which == 65 || e.keyCode == 65) && pressedShift == true) {
 				openAltModel();
 			}
 		})
-
 	/*	$(document).keypress(function(e) {
 		  if(e.charCode == 99) {
 		    alert("Você apertou c");
 		  }
 		}); */
-
-
-
 		//let level = 0;
 		//console.log(cy.getElementById(selectedNode).children());
-
 		function exportMap(){
 			 var doc = new jsPDF('landscape', 'pt', 'a4');
 			 doc.addHTML(document.body,function(){
@@ -413,15 +405,12 @@
 			 });
 		
 		}
-
 		function pdf(){
 			var doc = new jsPDF();
 			let y = 10;
 			let x = 20;
-
 			doc.text(cy.getElementById(0).style('content'), 50, y);
 			y+=10;
-
 			cy.nodes().forEach(function(node){
 				if(node.data('id')!=0){
 					doc.text(node.data('type'), 10, y);
@@ -431,24 +420,19 @@
 				}
 				
 			});
-
 			doc.save('description.pdf');
 		}
-
 	/*	$('#pdf').on('click', function(){
 			var doc = new jsPDF()
-
 			doc.text('Hello world!', 10, 10)
 			doc.save('descriptions.pdf')
 		});  */
-
 		$('#update').on('click', function (){
 			let nodeDescription = $("#recipient-name").val();
 			//alert(nodeDescription);
 			cy.getElementById(selectedNode).data("description", nodeDescription);
 			$('#descriptionModal').modal('hide');
 		});
-
 		function openAltModel(){
 			let nivelNode = cy.getElementById(selectedNode).data("nivel");
 			if (nivelNode != 2){
@@ -458,17 +442,14 @@
 				alert("Redirecting to Alternative Model");
 				openPage = function(){
 					//$_SESSION['alternativeNode'] = cy.getElementById(selectedNode);
-					location.href = "modeloAlt.php?Key="+cy.getElementById(selectedNode);
+					location.href = "modeloAlt.php?title="+cy.getElementById(selectedNode).style('content')+"&description="+cy.getElementById(selectedNode).data('description');
+					//location.href = "modeloAlt.php?Key="+teste;
 				}
 				//javascript:window.location.href="modeloAlt.php";
 				javascript:openPage();
 			}
 		}
-
-
-
 		//$("#add").on('click', add());
-
 			function add(){
 				let idText = $("#nodeName").val();
 				let nivelPai = cy.getElementById(selectedNode).data("nivel");
@@ -531,7 +512,6 @@
 			else{
 				let saveNode = selectedNode;
 				let passow = false;
-
 				cy.edges().forEach(function (edge){
 					if(edge.source().id() == selectedNode){
 						alert("You can only remove leaves");
@@ -539,7 +519,6 @@
 						return;
 					}
 				});
-
 				cy.edges().forEach(function (edge){
 				if(edge.target().id() == selectedNode){
 					selectedNode = edge.source().id();
@@ -558,7 +537,6 @@
 				//cy.getElementById(selectedNode).style("background-color","#000000");
 			}
 		}
-
 		$("#edit").on ("click",function (){
 			let idText = $("#nodeRename").val();
 			cy.getElementById(selectedNode).data("idNome", idText);
@@ -568,7 +546,6 @@
 		function center(){
 			cy.fit();
 		}
-
 		$('#descriptionModal').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -579,7 +556,6 @@
 		  modal.find('.modal-title').text('Description of ' + cy.getElementById(selectedNode).data("idNome"))
 		  modal.find('.modal-body input').val(text)
 		});
-
 		$('#createNodeModal').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -588,7 +564,6 @@
 		  var modal = $(this)
 		  modal.find('.modal-title').text('Creating a new node')
 		});
-
 		$('#renameNodeModal').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  var recipient = button.data('whatever') // Extract info from data-* attributes
@@ -597,7 +572,6 @@
 		  var modal = $(this)
 		  modal.find('.modal-title').text('Renaming a node')
 		});
-
 		</script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
