@@ -164,9 +164,9 @@
             <!--<li><input type="text" id="nodeName"></li>-->
             <li><a href="#" data-toggle="modal" data-target="#renameNodeModal" data-whatever="@mdo"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Rename selected node (Shift+R)</a></li>
             <li><a href="#" id="remove" onclick="remove()"><i class="fa fa-remove fa-fw" aria-hidden="true"></i> Remove selected node (del)</a></li>
-            <li><a href="#" id="center"><i class="fa fa-search fa-fw" aria-hidden="true"></i> Center map</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i> Change node description</a></li>
-            <li><a href="#" id="openAltModel" onclick="return openAltModel();"><i class="fa fa-font fa-fw" aria-hidden="true"></i> Open alternative model</a></li>
+            <li><a href="#" id="center" onclick="center()"><i class="fa fa-search fa-fw" aria-hidden="true"></i> Center map (Shift+M)</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#descriptionModal" data-whatever="@mdo"><i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i> Change node description (Shift+D)</a></li>
+            <li><a href="#" id="openAltModel" onclick="return openAltModel();"><i class="fa fa-font fa-fw" aria-hidden="true"></i> Open alternative model (Shift+A)</a></li>
             <li><a href='#' id="pdf" onclick="pdf()"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export descriptions as PDF</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#"><i class="fa fa-question fa-fw" aria-hidden="true"></i> Help</a></li>
@@ -374,6 +374,27 @@
 			}
 		})
 
+		$(document).keydown(function(e){
+			if(e.which == 16) pressedShift = true;
+			if((e.which == 77 || e.keyCode == 77) && pressedShift == true) {
+				center();
+			}
+		})
+
+		$(document).keydown(function(e){
+			if(e.which == 16) pressedShift = true;
+			if((e.which == 68 || e.keyCode == 68) && pressedShift == true) {
+				$('#descriptionModal').modal('show');
+			}
+		})
+
+		$(document).keydown(function(e){
+			if(e.which == 16) pressedShift = true;
+			if((e.which == 65 || e.keyCode == 65) && pressedShift == true) {
+				openAltModel();
+			}
+		})
+
 	/*	$(document).keypress(function(e) {
 		  if(e.charCode == 99) {
 		    alert("Você apertou c");
@@ -544,9 +565,9 @@
 			$('#renameNodeModal').modal('hide');
 			$('#renameNodeModal').find('.modal-body input').val("")
 		});
-		$("#center").on("click",function (){
+		function center(){
 			cy.fit();
-		});
+		}
 
 		$('#descriptionModal').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
