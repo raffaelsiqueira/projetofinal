@@ -24,8 +24,8 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
 
+	<!-- font awesome -->
 		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 		<link href="dashboard.css" rel="stylesheet">
 
@@ -36,15 +36,44 @@
    		 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
      	 <link href="barra.css" rel="stylesheet" />
 
+    <!-- Google login -->
+
+    	<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    	<meta name="google-signin-client_id" content="318842794290-2m1dl9daegafau6mcc1d1lpjm4jkv3h1.apps.googleusercontent.com">
+
+
 
 
 		<script>
-		let selectedNode=0;
+
+		//Informações básicas do perfil do Google recuperadas aqui
+
+		var GoogleURL=null;
+		function onSignIn(googleUser) {
+			var profile = googleUser.getBasicProfile();
+			console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		 	console.log('Name: ' + profile.getName());
+		 	console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+
+
+			//Criação da imagem que aparece no gráfico e na topbar
+		 	document.getElementById("idDaImagem").src = profile.getImageUrl();
+		 	GoogleURL = document.getElementById("idDaImagem").src;
+		 	graph(); 		//Necessidade de chamar o gráfico em uma função para recuperar os dados da imagem
+		}
+
+		function graph(){
+
+		//Declaração das variáveis com window para que estejam dentro de um escopo global
+		window.selectedNode = 0;
 			$(function(){
-				var cy = window.cy = cytoscape({
+				window.cy = window.cy = cytoscape({
 					container: document.getElementById('cy'),
           boxSelectionEnabled: false,
           autounselectify: true,
+           wheelSensitivity: 0.1,
 					layout: {
 						name: 'dagre'
 					},
@@ -69,7 +98,18 @@
 								'target-arrow-color': '#9dbaea',
 								'curve-style': 'bezier'
 							}
-						}
+						},
+						{
+							//Imagem do google a ser exibida no mapa
+							selector:'#googleUserImage',
+      				style:{
+      					'background-image': 'url('+GoogleURL+')',
+      					'background-fit': 'cover',
+      					'width': '12px',
+      					'height': '12px'
+      					}
+      		  }
+
 					],
 					elements: {
 						nodes: [
@@ -79,60 +119,68 @@
 					},
 					
 				});
-				//cy.getElementById(selectedNode).style("background-color","#000000");
 				cy.zoom(4);
 				
+				
+				cy.add([
+								{ group: "nodes", data: {id: 'googleUserImage', level: 100  }, 
+										position: {x: cy.getElementById(selectedNode).position("x")+18, y: cy.getElementById(selectedNode).position("y")-18},
+
+										selected:false,
+										selectable:false,
+										grabbable: false
+
+									},
+									{ group: "edges", data: {}}
+						]);
+
+
 				cy.on('click','node', function(e){
 					selectedNode = e.cyTarget.id();
+
 					cy.nodes().style('border-width', 'none');
 					cy.nodes().style('border-color', 'white');
 					cy.getElementById(selectedNode).style('border-width', '1');
 					cy.getElementById(selectedNode).style('border-color', 'black');
 					$('#textArea1').val(cy.getElementById(selectedNode).data("description"));
-					/*
-				function reqListener () {
-      				console.log(this.responseText);
-    			}
-			    var oReq = new XMLHttpRequest(); //New request object
-			    oReq.onload = function() {
-			        //This is where you handle what to do with the response.
-			        //The actual data is found on this.responseText
-			        alert(this.responseText); //Will alert: 42
-			    };
-			    oReq.open("get", "get-data.php", true);
-			    //                               ^ Don't block the rest of the execution.
-			    //                                 Don't wait until the request finishes to 
-			    //                                 continue.
-			    oReq.send();
-					
-					*/
-					//$('textarea#Tomoyo').val(e.cyTarget.id());
-					//$('textarea#Tomoyo').prop("disabled", "");
-					//var message = $('textarea#Tomoyo').val();
-					//alert(message);
-   					//alert(document.getElementById("Tomoyo").name);
-					//cy.getElementById(e.cyTarget.id()).style("background-color","#000000");
+
+
+
+						//movimenta a imagem do Google para seguir o nó selecionado
+						//OBS: Se o nó clicado for o da imagem do google, ele desloca infinitamente, consertar esse bug
+						cy.nodes("#googleUserImage").positions(function(i, ele){
+							return{
+
+								x : cy.getElementById(selectedNode).position("x") +18,
+								y : cy.getElementById(selectedNode).position("y") -18
+
+							};
+						});
+						
+					console.log(cy.getElementById(selectedNode).position());
+				
 				});
 			});
-		</script>
+		}
+		</script> 
 	</head>
 
 	<body>
 
+
+
 	<!-- Navbar -->
 
-	
 	<nav class="navbar navbar-custom">
 			<ul class="nav navbar-nav navbar-left">
-			
-				<li class="nav-item">
-           	<h6 class="navbar-brand brand-name">
-      					<a href="#" class="pull-left"> <img src="images/imaplogo.png">imap</a> 
-   					</h6>
-       	</li>
-	
+		
+
+		    <div class="navbar-container">
+      			 <img id= "imaplogo" src="images/imaplogo.png" href="">
+      	</div>
+   
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <i class=" fa-lg icon-folder-open pull-left"></i><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="saveMap.php"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i>&nbsp; Save map</a></li>
             <li><a href="#"><i class="fa fa-upload fa-fw" aria-hidden="true"></i>&nbsp; Load Map</a></li>
@@ -142,7 +190,7 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<i class=" fa-lg icon-sitemap pull-left"></i><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Create node (Shift+C)</a></li>
             <!--<li><input type="text" id="nodeName"></li>-->
@@ -158,14 +206,31 @@
         </li>
 
          <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<i class="fa-lg icon-share pull-left"></i><span class="caret"></span></a>
           <ul class="dropdown-menu">
        			<li><a  href="#"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i>&nbsp; Share</a></li>
        			<li><a href='#' id="pdf" onclick="exportMap()"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export map as PDF</a></li> 
           </ul>
         </li>
+
+
+
+        	<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+
+        	<!-- Imagem do google que fica na topbar -->
+					<img id="idDaImagem" src="" style=" height:32px; width: 32px; border-radius: 50%; position:absolute; left:75%" >
+
        	</li>
       </ul>
+         <div>
+       		<a class ="textoPagina"> IMPACT MODEL </a>
+         </div>
+
+         <div>
+         	<a class = "textoPagina2"> Session Participants </a>
+         </div>
+
 	</nav>
 
 	<!--Navbar-->
@@ -442,8 +507,7 @@
 				alert("Redirecting to Alternative Model");
 				openPage = function(){
 					//$_SESSION['alternativeNode'] = cy.getElementById(selectedNode);
-					location.href = "modeloAlt.php?title="+cy.getElementById(selectedNode).style('content')+"&description="+cy.getElementById(selectedNode).data('description');
-					//location.href = "modeloAlt.php?Key="+teste;
+					location.href = "modeloAlt.php?Key="+cy.getElementById(selectedNode);
 				}
 				//javascript:window.location.href="modeloAlt.php";
 				javascript:openPage();

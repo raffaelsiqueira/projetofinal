@@ -1,3 +1,11 @@
+/*
+:root{
+  --GoogleURL : GoogleURL;
+
+}
+*/
+
+
 img{
   width:50px;
   position: absolute;
@@ -14,136 +22,125 @@ img{
 .navbar-custom {
     color: #000000;
     background-color: #97c1ea;
-    border-color: #ffffff
+    border-color: #ffffff;
+    border-right: 30%;
 
+}
+
+
+#idDaImagem2{
+  height:32px;
+  width: 32px; 
+  border-radius: 50%;
+  position: absolute;
+  
+
+}
+
+.dropdown{
+  position:absolute;
+  left:100%;
+}
+
+#imaplogo{
+  height:40px;
+  width:40px;
+  top:10%;
+  left:1%;
+}
+
+html{
+  overflow:hidden;
 }
 
 body {
-        font-family: helvetica;
-        font-size: 14px;
-      }
+ font-family: helvetica;
+ font-size: 14px;
+}
 
-      #cy {
-        width: 80%;
-        height: 75%;
-        margin-top:6%;
+#cy {
+ width: 80%;
+ height: 82%;
+ margin-top:4%;
+ border-style: double;
+ border-color: #000000;
+ position: absolute;
+ right: 0;
+ top: 0;
+ z-index: 999;
+}
 
+#cy.active{
+  width:94%;
+}
 
-        border-style: double;
-          border-color: #000000;
-
-
-        position: absolute;
-        right: 0;
-        top: 0;
-        z-index: 999;
-      }
-
-      #cy.active{
-        width:94%;
-      }
-
-/*
-    #textArea1  {
-        width:   23%;
-        position:absolute;
-          right:  1%;
-          top:    13%;
-      }
-
-    #textArea2  {
-        width:23%;
-        position:absolute;
-          right:  1%;
-          top:    28%;
-      }
-
-*/
-
-
-
-
-      h1 {
-        opacity: 0.5;
-        font-size: 1em;
-      }
+h1 {
+  opacity: 0.5;
+  font-size: 1em;
+}
 
 .ModeloImpacto{
-
   position:absolute;
   right:0;
   top:0;
-
 }
 
-      .chartContainer {
-       width: 25%;
-       margin: 20px auto;
-      height: 300px;
+.chartContainer {
+  width: 25%;
+  margin: 20px auto;
+  height: 300px;
 
-      position: absolute;
-      left:75%;
-      top:50%;
-      }
+  position: absolute;
+  left:75%;
+  top:50%;
+}
 
-
-      .footer {
-        position: fixed;
-        bottom: 0%;
-        width: 100%;
-        /* Set the fixed height of the footer here */
-        height: 60px;
-        line-height: 60px; /* Vertically center the text there */
-        background-color: #f5f5f5;
-      }
-
-        .containerFooter {
-          width: auto;
-          max-width: 680px;
-          padding: 0 15px;
-          float:right;
-        }
-
-/*
- * Sidebar
- */
-
-.sidebariMap {
-  color: #999;
-  display: block;
-  text-decoration: none;
-  width: 150px;
-  background: #252525;
-  border-top: 1px solid #373737;
-  border-bottom: 1px solid #1A1A1A;
+.footer {
   position: fixed;
-  z-index: 0;
-  padding: 20px;
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-  border-right: 1px solid #eee;
-}
-
-/* Sidebar navigation */
-.sidebariMap {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.sidebariMap .nav {
-  margin-bottom: 20px;
-}
-
-.sidebariMap .nav-item {
+  bottom: 0%;
   width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+  background-color: #f5f5f5;
 }
 
-.sidebariMap .nav-item + .nav-item {
-  margin-left: 0;
+.containerFooter {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+  float:right;
 }
 
-.sidebariMap .nav-link {
-  border-radius: 0;
+ .textoPagina{
+   position:absolute;
+   left:6%;
+   top:30%;
+   font-family: "Arial Black",Gadget, sans-serif;
+   font-size: 17px;
+ }
+        
+ .textoPagina2{
+   position:absolute;
+   left:62%;
+   top:30%;
+}
+     
+
+.g-signin2{
+  position:absolute;
+  left:90%;
+  top:15%;
+}
+ 
+#idDaImagem{
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 /*
