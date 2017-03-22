@@ -23,13 +23,6 @@
 		<!-- Chart js implementado aqui     -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
-	
-
-		<!-- font awesome -->
-		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-		<link href="dashboard.css" rel="stylesheet">
-
 
 		<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 
@@ -55,37 +48,17 @@
 		</script>
 
 
-		 <!-- Google login -->
+		<!--<textarea id ="Tomoyo" name ="Sakura" rows="4" cols="50">
+				lalala
+		</textarea> -->
 
-    	<script src="https://apis.google.com/js/platform.js" async defer></script>
-
-    	<meta name="google-signin-client_id" content="318842794290-2m1dl9daegafau6mcc1d1lpjm4jkv3h1.apps.googleusercontent.com">
-
-    
-       <script>
-					function onSignIn(googleUser) {
-			 			var profile = googleUser.getBasicProfile();
-			 				console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-			  			console.log('Name: ' + profile.getName());
-			  			console.log('Image URL: ' + profile.getImageUrl());
-			  			console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-			  			document.getElementById("idDaImagem").src = profile.getImageUrl();
-							
-							//Criação da imagem que aparece no gráfico e na topbar
-						 	document.getElementById("idDaImagem").src = profile.getImageUrl();
-						 	GoogleURL = document.getElementById("idDaImagem").src;
-						 	graph(); 		//Necessidade de chamar o gráfico em uma função para recuperar os dados da imagem
-						}
-
-		function graph(){			
-
-		window.selectedNode=0;
+		<script>
+		let selectedNode=0;
 			$(function(){
-				window.cy = window.cy = cytoscape({
+				var cy = window.cy = cytoscape({
 					container: document.getElementById('cy'),
           boxSelectionEnabled: false,
           autounselectify: true,
-          wheelSensitivity: 0.1,
 					layout: {
 						name: 'dagre'
 					},
@@ -110,17 +83,7 @@
 								'target-arrow-color': '#9dbaea',
 								'curve-style': 'bezier'
 							}
-						},
-						{
-							//Imagem do google a ser exibida no mapa
-							selector:'#googleUserImage',
-      				style:{
-      					'background-image': 'url('+GoogleURL+')',
-      					'background-fit': 'cover',
-      					'width': '12px',
-      					'height': '12px'
-      					}
-      		  }
+						}
 					],
 					elements: {
 						nodes: [
@@ -132,53 +95,30 @@
 				});
 				//cy.getElementById(selectedNode).style("background-color","#000000");
 				
-			
-
-				cy.add([
-								{ group: "nodes", data: {id: 'googleUserImage', level: 100  }, 
-										position: {x: cy.getElementById(selectedNode).position("x")+22, y: cy.getElementById(selectedNode).position("y")-22},
-
-										selected:false,
-										selectable:false,
-										grabbable: false
-
-									},
-									{ group: "edges", data: {}}
-						]);
-
-
-
+				cy.zoom(4);
 				cy.on('click','node', function(e){
 					selectedNode = e.cyTarget.id();
-
 					cy.nodes().style('border-width', 'none');
 					cy.nodes().style('border-color', 'white');
 					cy.getElementById(selectedNode).style('border-width', '1');
 					cy.getElementById(selectedNode).style('border-color', 'black');
 					$('#textArea1').val(cy.getElementById(selectedNode).data("description"));
-
-
-
-						//movimenta a imagem do Google para seguir o nó selecionado
-						//OBS: Se o nó clicado for o da imagem do google, ele desloca infinitamente, consertar esse bug
-						cy.nodes("#googleUserImage").positions(function(i, ele){
-							return{
-
-								x : cy.getElementById(selectedNode).position("x") +22,
-								y : cy.getElementById(selectedNode).position("y") -22
-
-							};
-						});
-						
-					console.log(cy.getElementById(selectedNode).position());
-				
+					//$('textarea#Tomoyo').val(e.cyTarget.id());
+					//var message = $('textarea#Tomoyo').val();
+					//alert(message);
+   					//alert(document.getElementById("Tomoyo").name);
+					//cy.getElementById(e.cyTarget.id()).style("background-color","#000000");
 				});
 			});
-		}
 		</script>
 	</head>
 
 	<body>
+
+
+	
+
+
 	
 	
 
@@ -187,12 +127,14 @@
 		<nav class="navbar navbar-custom">
 			<ul class="nav navbar-nav navbar-left">
 			
-		  	<div class="navbar-container">
-      			 <img id= "imaplogo" src="images/imaplogo.png" href="">
-      	</div>
+				<li class="nav-item">
+           	<h6 class="navbar-brand brand-name">
+      					<a href="#" class="pull-left"> <img src="images/imaplogo.png">imap</a> 
+   					</h6>
+       	</li>
 	
         <li class="dropdown">
-         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <i class=" fa-lg icon-folder-open pull-left"></i><span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="saveMap.php"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i>&nbsp; Save map</a></li>
             <li><a href="#"><i class="fa fa-upload fa-fw" aria-hidden="true"></i>&nbsp; Load Map</a></li>
@@ -202,7 +144,7 @@
           </ul>
         </li>
         <li class="dropdown">
- 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<i class=" fa-lg icon-sitemap pull-left"></i><span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Map<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#" data-toggle="modal" data-target="#createNodeModal" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Create node (Shift+C)</a></li>
             <!--<li><input type="text" id="nodeName"></li>-->
@@ -216,7 +158,7 @@
         </li>
 
          <li class="dropdown">
-           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<i class="fa-lg icon-share pull-left"></i><span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<span class="caret"></span></a>
           <ul class="dropdown-menu">
        	
        			<li><a  href="#"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i>&nbsp; Share</a></li>
@@ -225,20 +167,6 @@
         </li>
        	</li>
       </ul>
-        <div>
-       		<a class ="textoPagina"> ALTERNATIVE MODEL </a>
-        </div>
-
-        	<div class="g-signin2" data-onsuccess="onSignIn"></div>
-
-
-					<img id="idDaImagem" src="" style=" height:32px; width: 32px; border-radius: 50%; position:absolute; left:75%" >
-
-					<div>
-         	<a class = "textoPagina2"> Participantes da sessão </a>
-         </div>
-
-
 	</nav>
 
 
@@ -454,8 +382,23 @@
     </div>
   </div>
 </div>
+
+<?php
+	$title = $_GET['title'];
+	$description = $_GET['description'];
+?>
+
 		<script>
 		let i = 0;
+		var altTitle = "<?php print $title; ?>";
+		var altDescription = "<?php print $description; ?>";
+
+		window.onload = function(){
+			cy.getElementById(selectedNode).style("content", altTitle);
+			cy.getElementById(selectedNode).data("description", altDescription);	
+		}
+		
+
 		var pressedShift = false;
 		
 		$(document).keyup(function(e){
