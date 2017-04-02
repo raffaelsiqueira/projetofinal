@@ -160,6 +160,7 @@
          <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Share<span class="caret"></span></a>
           <ul class="dropdown-menu">
+          		<li><a href="#" data-toggle="modal" data-target="#inviteModal" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Invite to colaborate</a></li>
        			<li><a  href="#"><i class="fa fa-share-alt fa-fw" aria-hidden="true"></i>&nbsp; Share</a></li>
        			<li><a href='#' id="pdf" onclick="exportMap()"><i class="fa fa-file-pdf-o  fa-fw" aria-hidden="true"></i>&nbsp; Export map as PDF</a></li> 
        			<li><a href="#" data-toggle="modal" data-target="#driveUpload" data-whatever="@mdo"><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Import map to Google Drive</a></li>
@@ -347,6 +348,30 @@
   </div>
 </div>
 
+<div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="inviteLabel">Invite to colaborate</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Email:</label>
+            <input type="text" class="form-control" id="emailInput" autofocus>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="invite" onclick="return invite();">Invite</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="driveUpload" tabindex="-1" role="dialog" aria-labelledby="driveUpload">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -430,6 +455,12 @@
 			 });
 		
 		}
+
+		function invite(){
+			let email = $('#emailInput').val()
+			location.href = "envia_email_gmail.php?email="+email;
+		}
+
 		function pdf(){
 			var doc = new jsPDF();
 			let y = 10;

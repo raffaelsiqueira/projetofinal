@@ -5,7 +5,7 @@
 	/* o gmail implementa uma segurança para permitir ou não o acesso ao seu e-mail através de aplicativos menos seguros (como é caso), ao efetuar o teste de envio de e-mail consulte sua caixa de mensagem, caso esta configuração esteja desabilitada você receberá um e-mail do google questionando se deve ou não habilitar tal acesso */
 	
 	require 'PHPMailer\PHPMailerAutoload.php';
-	
+	$email = $_GET['email'];
 	//configurações básicas de endereço e protoloco 
 	$mail = new PHPMailer; //faz a instância do objeto PHPMailer
 	//$mail->SMTPDebug = true; //habilita o debug se parâmetro for true
@@ -21,7 +21,7 @@
 	$mail->Password = 'Gr3c02013'; //senha ****CUIDADO PARA NÃO EXPOR ESSA INFORMAÇÃO NA INTERNET OU NO FÓRUM DE DÚVIDAS DO CURSO****
 	
 	//dados de envio de e-mail
-	$mail->addAddress('raffael.siqueira94@gmail.com', 'Jorge Teste'); //e-mails que receberam a mesagem
+	$mail->addAddress($email, 'Jorge Teste'); //e-mails que receberam a mesagem
 	
 	//configuração da mensagem
 	$mail->isHTML(true); //formato da mensagem de e-mail
