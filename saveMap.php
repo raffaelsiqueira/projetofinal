@@ -16,12 +16,10 @@ if (isset($_GET['code'])) {
     $client->authenticate();
 }
 $files= array();
-$dir = dir('./');
+$dir = dir('files');
 while ($file = $dir->read()) {
-    //if ($file != '.' && $file != '..') {
-    if ($file == "modeloImpacto.php") {
+    if ($file != '.' && $file != '..') {
         $files[] = $file;
-    
     }
 }
 $dir->close();
@@ -46,9 +44,6 @@ if (!empty($_POST)) {
     }
     finfo_close($finfo);
     header('location:'.$url);exit;
-
-
 }
-
 include 'index.phtml';
 echo '<a href="modeloImpacto.php">Return to model</a>';
