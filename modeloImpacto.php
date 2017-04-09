@@ -350,7 +350,7 @@
         <form>
           <div class="form-group">
             <label for="recipient-name" class="control-label">Description:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" id="recipient-name" name="update">
           </div>
         </form>
       </div>
@@ -375,7 +375,7 @@
         <form>
           <div class="form-group">
             <label for="recipient-name" class="control-label">Name of the node:</label>
-            <input type="text" class="form-control" id="nodeName">
+            <input type="text" class="form-control" id="nodeName" name="add">
           </div>
         </form>
       </div>
@@ -399,7 +399,7 @@
         <form>
           <div class="form-group">
             <label for="recipient-name" class="control-label">New name of the node:</label>
-            <input type="text" class="form-control" id="nodeRename">
+            <input type="text" class="form-control" id="nodeRename" name="edit">
           </div>
         </form>
       </div>
@@ -423,7 +423,7 @@
         <form>
           <div class="form-group">
             <label for="recipient-name" class="control-label">Email:</label>
-            <input type="text" class="form-control" id="emailInput" autofocus>
+            <input type="text" class="form-control" id="emailInput" name="invite" autofocus>
           </div>
         </form>
       </div>
@@ -440,20 +440,20 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <button type="button" id="filename" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="renameNodeLabel">Upload</h4>
       </div>
       <div class="modal-body">
         <form action="Google-Drive-PHP-API-Simple-App-Example-master/index.php" method="post" id="formularioUpload">
           <div class="form-group">
             <label for="recipient-name" class="control-label">Upload file</label>
-            <input type="text" class="form-control" id="filename">
+            <input type="text" class="form-control" id="filename" name="upload">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" form="formularioUpload" value="submit">Upload</button>
+        <button type="submit" class="btn btn-primary" id="upload" form="formularioUpload" value="submit">Upload</button>
 
       </div>
     </div>
@@ -465,6 +465,18 @@
 		let i = 0;
 		let nId = 1;
 		var pressedShift = false;
+
+    $('input').keypress(function (ev) {
+        if (ev.which == 13) {
+            ev.preventDefault();
+            $('#' + $(this).prop('name')).trigger('click');
+        }
+    });
+
+    $('button').click(function (ev) {
+        ev.preventDefault();
+        //alert($(this).attr('id') + ' click');
+    });
 		
 		$(document).keyup(function(e){
 			if(e.which == 16) pressedShift = false;
