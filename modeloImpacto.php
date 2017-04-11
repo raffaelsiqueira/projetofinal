@@ -183,7 +183,7 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <i class=" fa-lg icon-folder-open pull-left"></i><span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="saveMap.php"><i class="fa fa-floppy-o fa-fw" aria-hidden="true"></i>&nbsp; Save map</a></li>
-            <li><a href="#"><i class="fa fa-upload fa-fw" aria-hidden="true"></i>&nbsp; Load Map</a></li>
+            <li><a href="#" onclick="testeJSON()"><i class="fa fa-upload fa-fw" aria-hidden="true"></i>&nbsp; Load Map</a></li>
             <li><a href="logout.php"><i class="fa fa-user-times  fa-fw" aria-hidden="true"></i>&nbsp; Logout</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Alguma coisa</a></li>
@@ -524,6 +524,12 @@
 		}); */
 		//let level = 0;
 		//console.log(cy.getElementById(selectedNode).children());
+
+    function testeJSON(){
+      var textoJSON = JSON.stringify( cy.json() );
+      location.href = "generateJSON.php?texto="+textoJSON;
+    }
+
 		function exportMap(){
 			 var doc = new jsPDF('landscape', 'pt', 'a4');
 			 doc.addHTML(document.body,function(){
